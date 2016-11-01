@@ -5,51 +5,46 @@
       xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
       xmlns:update="http://xmlns.jcp.org/jsf/core" xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
 >
 <h:head>
-
 </h:head>
 <h:body>
     <h:form id="form">
-
-        <p:messages for="MessageId" showDetail="true" autoUpdate="true" closable="true"/>
-
-        <p:dataGrid  var="car" value="#{carsData.cars.cars}" columns="10" layout="grid"
-                     rows="12" paginator="true" id="grid"
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                     rowsPerPageTemplate="10,25,50">
-            <f:facet name="header">
-                <h:panelGrid columns="3" cellpadding="5" id="buttonGrid">
-                    <p:commandButton value="Add a new car" type="button" onclick="PF('addACar').show();" />
-                </h:panelGrid>
-                <p:dialog header="New car" widgetVar="addACar" modal="true" height="170">
-                    <h:panelGrid columns="2">
-                        <h:outputLabel value="License Plate Number:" />
-                        <p:inputText value="#{carsData.selectedCar.licensePlateNumber}" required="true" requiredMessage="Required!"/>
-                        <h:outputLabel value="Brand:" />
-                        <p:inputText value="#{carsData.selectedCar.brand}" required="true" requiredMessage="Required!"/>
-                        <h:outputLabel value="Type:" />
-                        <p:inputText value="#{carsData.selectedCar.type}" required="true" requiredMessage="Required!"/>
-                        <h:outputLabel value="Color:" />
-                        <p:inputText value="#{carsData.selectedCar.color}" required="true" requiredMessage="Required!"/>
-                    </h:panelGrid>
-                    <p:commandButton value="Add" id="addCarButton"
-                                     update="grid" actionListener="#{carsData.addCar}" styleClass="ui-priority-primary" />
-                </p:dialog>
-            </f:facet>
-            <p:panel header="#{car.licensePlateNumber}" style="text-align:center">
-                <h:panelGrid columns="1" style="width:100%">
-                    <h:outputText value="#{car.brand}" />
-                    <h:outputText value="#{car.type}" />
-                    <h:outputText value="#{car.color}" />
-
-                    <!--<p:commandLink action="#{car.licensePlateNumber}">-->
-                        <!--<h:outputText styleClass="ui-icon ui-icon-circlesmall-plus" style="margin:0 auto;" />-->
-                        <!--<f:setPropertyActionListener value="#{car}" target="#{carsData.selectedCar}" />-->
-                    <!--</p:commandLink>-->
-                </h:panelGrid>
-            </p:panel>
-        </p:dataGrid>
+            <p:messages for="MessageId" showDetail="true" autoUpdate="true" closable="true"/>
+                <p:dataGrid  var="car" value="#{parkingLotData.parkingLot.first}" columns="10" layout="grid"
+                             rows="12" paginator="true" id="grid"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,25,50">
+                    <f:facet name="header">
+                        <h:panelGrid columns="5" cellpadding="5" id="buttonGrid">
+                            <p:outputLabel value="#{param['licensePlateNumber']}" />
+                            <pe:timePicker value="#{parkingLotData.timeIn}" mode="popup" widgetVar="popupTimeWidget"
+                                           label="Popup time picker"/>
+                            <pe:timePicker value="#{parkingLotData.timeOut}" mode="popup" widgetVar="popupTimeWidget"
+                                           label="Popup time picker"/>
+                            <p:commandButton value="Park in" action="#{parkingLotData.parkIn}" update="grid">
+                                <f:param name="licensePlateNumber" value="#{param['licensePlateNumber']}"></f:param>
+                            </p:commandButton>
+                            <p:commandButton value="Home" action="#{parkingLotData.returnHome}"/>
+                        </h:panelGrid>
+                    </f:facet>
+                    <p:panel header="#{car.carLicensePlate}" style="text-align:center">
+                        <h:panelGrid columns="2" style="width:100%">
+                            <h:outputText value="In:"/>
+                            <h:outputText value="#{car.timeIn}">
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                            <h:outputText value="Out:"/>
+                            <h:outputText value="#{car.timeOut}">
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                        </h:panelGrid>
+                        <h:panelGrid columns="1" style="width: 100%">
+                            <p:commandButton value="CLEAR" action="#{parkingLotData.parkOut(car.carLicensePlate)}" update="grid"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dataGrid>
     </h:form>
 </h:body>
 </html>

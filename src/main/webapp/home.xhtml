@@ -22,16 +22,16 @@
         <h:panelGrid columns="3" cellpadding="5" id="buttonGrid">
             <p:commandButton value="Add a new car" type="button" onclick="PF('addACar').show();" />
         </h:panelGrid>
-        <p:dialog header="New car" widgetVar="addACar" modal="true" height="170">
+        <p:dialog header="New car" widgetVar="addACar" modal="true" height="180">
             <h:panelGrid columns="2">
                 <h:outputLabel value="License Plate Number:" />
-                <p:inputText value="#{carsData.selectedCar.licensePlateNumber}" required="true" requiredMessage="Required!"/>
+                <p:inputText value="#{carsData.selectedCar.licensePlateNumber}"/>
                 <h:outputLabel value="Brand:" />
-                <p:inputText value="#{carsData.selectedCar.brand}" required="true" requiredMessage="Required!"/>
+                <p:inputText value="#{carsData.selectedCar.brand}"/>
                 <h:outputLabel value="Type:" />
-                <p:inputText value="#{carsData.selectedCar.type}" required="true" requiredMessage="Required!"/>
+                <p:inputText value="#{carsData.selectedCar.type}"/>
                 <h:outputLabel value="Color:" />
-                <p:inputText value="#{carsData.selectedCar.color}" required="true" requiredMessage="Required!"/>
+                <p:inputText value="#{carsData.selectedCar.color}"/>
             </h:panelGrid>
             <p:commandButton value="Add" id="addCarButton"
                              update="grid" actionListener="#{carsData.addCar}" styleClass="ui-priority-primary" />
@@ -42,6 +42,12 @@
                 <h:outputText value="#{car.brand}" />
                 <h:outputText value="#{car.type}" />
                 <h:outputText value="#{car.color}" />
+            </h:panelGrid>
+            <h:panelGrid columns="2" style="width: 100%">
+                <h:commandButton value="IN" action="parkinglot">
+                    <f:param name="licensePlateNumber" value="#{car.licensePlateNumber}" />
+                </h:commandButton>
+                <h:commandButton value="DELETE" action="#{carsData.deleteCar(car.licensePlateNumber)}"/>
             </h:panelGrid>
         </p:panel>
     </p:dataGrid>

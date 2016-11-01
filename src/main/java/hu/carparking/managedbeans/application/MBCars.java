@@ -4,6 +4,7 @@ import hu.carparking.vo.CarVO;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -12,7 +13,9 @@ import java.util.LinkedList;
  */
 @ManagedBean(name = "cars")
 @ApplicationScoped
-public class MBCars {
+public class MBCars implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     private Collection<CarVO> cars = new LinkedList<CarVO>();
 
@@ -22,12 +25,28 @@ public class MBCars {
         cars.add(new CarVO("GHI-342", "BMW", "M3", "BLACK"));
     }
 
+    public boolean isContains(String licensePlateNumber){
+        for (CarVO car : cars
+             ) {
+            if(car.getLicensePlateNumber().equals(licensePlateNumber)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addCar(CarVO car){
         cars.add(car);
     }
 
-    public void deleteCar(CarVO car){
-        cars.remove(car);
+    public void deleteCar(String licensePlateNumber){
+        for (CarVO car: cars
+             ) {
+            if(car.getLicensePlateNumber().equals(licensePlateNumber)){
+                cars.remove(car);
+                return;
+            }
+        }
     }
 
     public Collection<CarVO> getCars() {
