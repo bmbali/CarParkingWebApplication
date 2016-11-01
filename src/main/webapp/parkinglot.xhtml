@@ -12,7 +12,7 @@
 <h:body>
     <h:form id="form">
             <p:messages for="MessageId" showDetail="true" autoUpdate="true" closable="true"/>
-                <p:dataGrid  var="car" value="#{parkingLotData.parkingLot.first}" columns="10" layout="grid"
+                <p:dataGrid  var="car" value="#{parkingLotData.parkingLot.carsIn}" columns="10" layout="grid"
                              rows="12" paginator="true" id="grid"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,25,50">

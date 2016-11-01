@@ -41,7 +41,10 @@ public class CarsDataGrid implements Serializable {
                     ("MessageId", new FacesMessage(FacesMessage.SEVERITY_WARN, "\n" +
                             "Unable to add new car", "\n" +
                             "This license plate number already in use!"));
-        } else if(!(selectedCar.getLicensePlateNumber() == null)){
+        } else if(!(selectedCar.getLicensePlateNumber().equals(""))
+                && !(selectedCar.getType().equals(""))
+                && !(selectedCar.getBrand().equals(""))
+                && !(selectedCar.getColor().equals(""))){
             cars.addCar(selectedCar);
             FacesContext.getCurrentInstance().addMessage
                     ("MessageId", new FacesMessage  (FacesMessage.SEVERITY_INFO,
